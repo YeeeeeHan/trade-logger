@@ -17,7 +17,7 @@ import (
 func main() {
 	// If env is not prod, use read env from local.env
 	if os.Getenv("ENV") != "PROD" {
-		log.Printf("[env] Reading from local.env")
+		log.Printf("[env] Re ading from local.env")
 		err := godotenv.Load("local.env")
 		if err != nil {
 			log.Fatalf("Some err occured. Err: %s", err)
