@@ -3,21 +3,17 @@ package main
 import (
 	"NFTracker/cmd/handlers"
 	"NFTracker/datastorage"
-	"NFTracker/pkg/api"
 	"NFTracker/pkg/constants"
-	"NFTracker/pkg/db"
-	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"github.com/joho/godotenv"
 	"log"
-	"net/http"
 	"os"
 )
 
 func main() {
 	// If env is not prod, use read env from local.env
 	if os.Getenv("ENV") != "PROD" {
-		log.Printf("[env] Re ading from local.env")
+		log.Printf("[env] Reading from local.env")
 		err := godotenv.Load("local.env")
 		if err != nil {
 			log.Fatalf("Some err occured. Err: %s", err)
@@ -25,21 +21,21 @@ func main() {
 	}
 
 	// Init API and DB
-	db, err := db.NewDB()
-	if err != nil {
-		panic(err)
-	}
+	// 	db, err := db.NewDB()
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
 
 	log.Printf("[main] We're up and running!")
-	port := os.Getenv("PORT")
+	//port := os.Getenv("PORT")
 
-	go func() {
-		router := api.NewAPI(db)
-		err = http.ListenAndServe(fmt.Sprintf(":%s", port), router)
-		if err != nil {
-			log.Printf("err from  router: %v\n", err)
-		}
-	}()
+	//go func() {
+	//	router := api.NewAPI(db)
+	//	err = http.ListenAndServe(fmt.Sprintf(":%s", port), router)
+	//	if err != nil {
+	//		log.Printf("err from  router: %v\n", err)
+	//	}
+	//}()
 
 	// Initialize cache
 	_ = datastorage.InitCache()
@@ -58,7 +54,7 @@ func main() {
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
 
-	updates, err := bot.GetUpdatesChan(u)
+	updates, _ := bot.GetUpdatesChan(u)
 
 	for update := range updates {
 		if update.CallbackQuery != nil {
@@ -95,7 +91,7 @@ func main() {
 			// Handle commands
 			switch update.Message.Command() {
 			case constants.New:
-				handlers.PriceCheck(db, bot, chat, t, username)
+				handlers.PriceCheck(bot, chat, t, username)
 			case constants.Start, constants.Help:
 				handlers.Introduction(bot, chat.ID)
 			}

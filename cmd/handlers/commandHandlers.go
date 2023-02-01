@@ -4,7 +4,6 @@ import (
 	"NFTracker/cmd/message"
 	"NFTracker/pkg/opensea"
 	"fmt"
-	"github.com/go-pg/pg/v10"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api"
 	"log"
 )
@@ -21,7 +20,7 @@ func Introduction(bot *tgbotapi.BotAPI, chatID int64) {
 	return
 }
 
-func PriceCheck(pgdb *pg.DB, bot *tgbotapi.BotAPI, chat *tgbotapi.Chat, t, userName string) {
+func PriceCheck(bot *tgbotapi.BotAPI, chat *tgbotapi.Chat, t, userName string) {
 	userLink := fmt.Sprintf("https://t.me/%s", userName)
 	msg := fmt.Sprintf("[From %s](%s)\n", userName, userLink) + t[5:]
 	message.SendMessage(bot, -1001744918879, msg)
