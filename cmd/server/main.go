@@ -72,10 +72,10 @@ func main() {
 
 			// Respond to the callback query, telling Telegram to show the user
 			// a message with the data received.
-			callback := tgbotapi.NewCallback(update.CallbackQuery.ID, callbackData)
-			if _, err := bot.AnswerCallbackQuery(callback); err != nil {
-				continue
-			}
+			//callback := tgbotapi.NewCallback(update.CallbackQuery.ID, callbackData)
+			//if _, err := bot.AnswerCallbackQuery(callback); err != nil {
+			//	continue
+			//}
 
 			// And finally, send a message containing the data received.
 			handlers.EditMessage(bot, messageID, chatID, callbackData)
@@ -94,8 +94,8 @@ func main() {
 		case update.Message.IsCommand():
 			// Handle commands
 			switch update.Message.Command() {
-			case constants.Fp:
-				handlers.PriceCheck(db, bot, chat, username, update.Message.CommandArguments())
+			case constants.New:
+				handlers.PriceCheck(db, bot, chat, t, username)
 			case constants.Start, constants.Help:
 				handlers.Introduction(bot, chat.ID)
 			}

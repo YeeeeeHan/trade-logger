@@ -23,7 +23,8 @@ func SendInlineSlugMissMessage(bot *tgbotapi.BotAPI, chatID int64, message, slug
 	var buttons [][]tgbotapi.InlineKeyboardButton
 
 	buttons = append(buttons, tgbotapi.NewInlineKeyboardRow(
-		tgbotapi.NewInlineKeyboardButtonData(fmt.Sprintf("Did you mean:  /fp %s ?", match), match),
+		tgbotapi.NewInlineKeyboardButtonData(fmt.Sprintf("Long"), "long-data"),
+		tgbotapi.NewInlineKeyboardButtonData(fmt.Sprintf("Short", match), "short-data"),
 	))
 
 	var inlineKeyboard = tgbotapi.NewInlineKeyboardMarkup(buttons...)
